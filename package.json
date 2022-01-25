@@ -18,6 +18,8 @@
 	"bugs": {},
 	"homepage": "",
 	"dependencies": {
+		"@cig-platform/decorators": "^0.0.1",
+		"@cig-platform/types": "^0.0.22",
 		"axios": "^0.25.0"
 	},
 	"devDependencies": {
