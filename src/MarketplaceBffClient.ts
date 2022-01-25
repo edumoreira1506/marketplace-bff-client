@@ -23,7 +23,7 @@ export default class MarketplaceBffClient {
     poultryId: string,
     advertisingId: string,
     token: string,
-    question: IAdvertisingQuestion
+    question: Partial<IAdvertisingQuestion>
   ) {
     return this._axiosBackofficeBffInstance.post(
       `/v1/breeders/${breederId}/poultries/${poultryId}/advertisings/${advertisingId}/questions`,
@@ -43,7 +43,7 @@ export default class MarketplaceBffClient {
     advertisingId: string,
     questionId: string,
     token: string,
-    answer: IAdvertisingQuestionAnswer
+    answer: Partial<IAdvertisingQuestionAnswer>
   ) {
     return this._axiosBackofficeBffInstance.post(
       `/v1/breeders/${breederId}/poultries/${poultryId}/advertisings/${advertisingId}/questions/${questionId}/answers`,
