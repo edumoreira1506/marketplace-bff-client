@@ -1,6 +1,14 @@
 import axios, { AxiosInstance } from 'axios';
-import { IAdvertisingQuestionAnswer, IAdvertisingQuestion } from '@cig-platform/types';
+import { IAdvertisingQuestionAnswer, IAdvertisingQuestion, IDeal } from '@cig-platform/types';
 import { RequestErrorHandler } from '@cig-platform/decorators';
+
+interface RequestSuccess {
+  ok: true;
+}
+
+export interface PostDealSuccess extends RequestSuccess {
+  deal: IDeal;
+}
 
 export default class MarketplaceBffClient {
   private _axiosBackofficeBffInstance: AxiosInstance;
@@ -54,5 +62,25 @@ export default class MarketplaceBffClient {
         }
       },
     );
+  }
+
+  @RequestErrorHandler()
+  async postDeal(
+    breederId: string,
+    poultryId: string,
+    advertisingId: string,
+    token: string,
+  ) {
+    const { data } = await this._axiosBackofficeBffInstance.post<PostDealSuccess>(
+      `/v1/breeders/${breederId}/poultries/${poultryId}/advertisings/${advertisingId}/deals`,
+      {},
+      {
+        headers: {
+          'X-Cig-Token': token,
+        }
+      },
+    );
+
+    return data.deal;
   }
 }
