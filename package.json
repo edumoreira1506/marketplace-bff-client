@@ -1,6 +1,6 @@
 {
 	"name": "@cig-platform/marketplace-bff-client",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "",
 	"main": "build/index.js",
 	"types": "build/index.d.ts",
@@ -19,7 +19,7 @@
 	"homepage": "",
 	"dependencies": {
 		"@cig-platform/decorators": "^0.0.1",
-		"@cig-platform/types": "^0.0.22",
+		"@cig-platform/types": "^0.0.26",
 		"axios": "^0.25.0"
 	},
 	"devDependencies": {
