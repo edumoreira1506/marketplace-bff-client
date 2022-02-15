@@ -70,10 +70,11 @@ export default class MarketplaceBffClient {
     poultryId: string,
     advertisingId: string,
     token: string,
+    { value, description }: { value: number; description: string; }
   ) {
     const { data } = await this._axiosBackofficeBffInstance.post<PostDealSuccess>(
       `/v1/breeders/${breederId}/poultries/${poultryId}/advertisings/${advertisingId}/deals`,
-      {},
+      { value, description },
       {
         headers: {
           'X-Cig-Token': token,
