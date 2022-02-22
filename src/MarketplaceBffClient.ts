@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { IAdvertisingQuestionAnswer, IAdvertisingQuestion, IDeal } from '@cig-platform/types';
+import { IAdvertisingQuestionAnswer, IAdvertisingQuestion, IDeal, IPoultry, IAdvertising, IBreeder } from '@cig-platform/types';
 import { RequestErrorHandler } from '@cig-platform/decorators';
 
 interface RequestSuccess {
@@ -8,6 +8,19 @@ interface RequestSuccess {
 
 export interface PostDealSuccess extends RequestSuccess {
   deal: IDeal;
+}
+
+interface PoultryData {
+  poultry: IPoultry & { mainImage: string; breederId: string };
+  advertising: IAdvertising;
+  breeder: IBreeder;
+}
+
+export interface GetHomeSuccess extends RequestSuccess {
+  femaleChickens: PoultryData[];
+  maleChickens: PoultryData[];
+  matrixes: PoultryData[];
+  reproductives: PoultryData[];
 }
 
 export default class MarketplaceBffClient {
@@ -83,5 +96,12 @@ export default class MarketplaceBffClient {
     );
 
     return data.deal;
+  }
+
+  @RequestErrorHandler()
+  async getHome() {
+    const { data } = await this._axiosBackofficeBffInstance.get<GetHomeSuccess>('/v1/home');
+
+    return data;
   }
 }
