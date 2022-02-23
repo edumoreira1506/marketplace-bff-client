@@ -23,6 +23,10 @@ export interface GetHomeSuccess extends RequestSuccess {
   reproductives: PoultryData[];
 }
 
+export interface GetSearchSuccess extends RequestSuccess {
+  advertisings: PoultryData[]
+}
+
 export default class MarketplaceBffClient {
   private _axiosBackofficeBffInstance: AxiosInstance;
 
@@ -103,5 +107,44 @@ export default class MarketplaceBffClient {
     const { data } = await this._axiosBackofficeBffInstance.get<GetHomeSuccess>('/v1/home');
 
     return data;
+  }
+
+  @RequestErrorHandler()
+  async getSearch({
+    gender,
+    type,
+    tail,
+    dewlap,
+    crest,
+    keyword,
+    genderCategory,
+    prices,
+    sort
+  }: {
+    gender?: string;
+    type?: string;
+    tail?: string;
+    dewlap?: string;
+    crest?: string;
+    keyword?: string;
+    genderCategory?: string;
+    prices?: { min?: number; max?: number };
+    sort?: string;
+  }) {
+    const { data } = await this._axiosBackofficeBffInstance.get<GetSearchSuccess>('/v1/search', {
+      params: {
+        gender,
+        type,
+        tail,
+        dewlap,
+        crest,
+        keyword,
+        genderCategory,
+        prices: prices ? JSON.stringify(prices) : undefined,
+        sort
+      }
+    });
+
+    return data.advertisings;
   }
 }
