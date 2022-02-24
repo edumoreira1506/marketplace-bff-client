@@ -150,4 +150,27 @@ export default class MarketplaceBffClient {
 
     return data.advertisings;
   }
+
+  @RequestErrorHandler()
+  async postFavorite({
+    breederId,
+    poultryId,
+    advertisingId,
+    token
+  }: {
+    breederId: string;
+    poultryId: string;
+    advertisingId: string;
+    token: string;
+  }) {
+    await this._axiosBackofficeBffInstance.post(
+      `/v1/breeders/${breederId}/poultries/${poultryId}/advertisings/${advertisingId}/favorites`,
+      {},
+      {
+        headers: {
+          'X-Cig-Token': token,
+        }
+      },
+    );
+  }
 }
