@@ -173,4 +173,28 @@ export default class MarketplaceBffClient {
       },
     );
   }
+
+  @RequestErrorHandler()
+  async removeFavorite({
+    breederId,
+    poultryId,
+    advertisingId,
+    token,
+    favoriteId
+  }: {
+    breederId: string;
+    poultryId: string;
+    advertisingId: string;
+    token: string;
+    favoriteId: string;
+  }) {
+    await this._axiosBackofficeBffInstance.delete(
+      `/v1/breeders/${breederId}/poultries/${poultryId}/advertisings/${advertisingId}/favorites/${favoriteId}`,
+      {
+        headers: {
+          'X-Cig-Token': token,
+        }
+      },
+    );
+  }
 }
