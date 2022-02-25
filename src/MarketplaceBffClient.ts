@@ -111,37 +111,37 @@ export default class MarketplaceBffClient {
 
   @RequestErrorHandler()
   async getSearch({
-    gender,
-    type,
-    tail,
-    dewlap,
-    crest,
+    gender = [],
+    type = [],
+    tail = [],
+    dewlap = [],
+    crest = [],
     keyword,
-    genderCategory,
+    genderCategory = [],
     prices,
     sort,
     favorites = []
   }: {
-    gender?: string;
-    type?: string;
-    tail?: string;
-    dewlap?: string;
-    crest?: string;
+    gender?: string[];
+    type?: string[];
+    tail?: string[];
+    dewlap?: string[];
+    crest?: string[];
     keyword?: string;
-    genderCategory?: string;
+    genderCategory?: string[];
     prices?: { min?: number; max?: number };
     sort?: string;
     favorites: string[];
   }) {
     const { data } = await this._axiosBackofficeBffInstance.get<GetSearchSuccess>('/v1/search', {
       params: {
-        gender,
-        type,
-        tail,
-        dewlap,
-        crest,
+        gender: gender.filter(Boolean).length ? gender.filter(Boolean).join(',') : undefined,
+        type: type.filter(Boolean).length ? type.filter(Boolean).join(',') : undefined,
+        tail: tail.filter(Boolean).length ? tail.filter(Boolean).join(',') : undefined,
+        dewlap: dewlap.filter(Boolean).length ? dewlap.filter(Boolean).join(',') : undefined,
+        crest: crest.filter(Boolean).length ? crest.filter(Boolean).join(',') : undefined,
         keyword,
-        genderCategory,
+        genderCategory: genderCategory.filter(Boolean).length ? genderCategory.filter(Boolean).join(',') : undefined,
         prices: prices ? JSON.stringify(prices) : undefined,
         sort,
         favoriteIds: favorites.join(',')
