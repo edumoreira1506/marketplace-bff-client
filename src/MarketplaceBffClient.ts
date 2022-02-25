@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { IAdvertisingQuestionAnswer, IAdvertisingQuestion, IDeal, IPoultry, IAdvertising, IBreeder } from '@cig-platform/types';
+import { IAdvertisingQuestionAnswer, IAdvertisingQuestion, IDeal, IPoultry, IAdvertising, IBreeder, IPoultryRegister } from '@cig-platform/types';
 import { RequestErrorHandler } from '@cig-platform/decorators';
 
 interface RequestSuccess {
@@ -14,6 +14,12 @@ interface PoultryData {
   poultry: IPoultry & { mainImage: string; breederId: string };
   advertising: IAdvertising;
   breeder: IBreeder;
+  measurementAndWeight: IPoultryRegister & {
+    metadata: {
+      weight?: string;
+      measurement?: string;
+    }
+  };
 }
 
 export interface GetHomeSuccess extends RequestSuccess {
