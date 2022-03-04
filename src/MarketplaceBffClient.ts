@@ -126,6 +126,7 @@ export default class MarketplaceBffClient {
     genderCategory = [],
     prices,
     sort,
+    page = 0,
     favorites = []
   }: {
     gender?: string[];
@@ -138,6 +139,7 @@ export default class MarketplaceBffClient {
     prices?: { min?: number; max?: number };
     sort?: string;
     favorites: string[];
+    page?: number;
   }) {
     const { data } = await this._axiosBackofficeBffInstance.get<GetSearchSuccess>('/v1/search', {
       params: {
@@ -150,7 +152,8 @@ export default class MarketplaceBffClient {
         genderCategory: genderCategory.filter(Boolean).length ? genderCategory.filter(Boolean).join(',') : undefined,
         prices: prices ? JSON.stringify(prices) : undefined,
         sort,
-        favoriteIds: favorites.join(',')
+        favoriteIds: favorites.join(','),
+        page
       }
     });
 
