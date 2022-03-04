@@ -30,7 +30,8 @@ export interface GetHomeSuccess extends RequestSuccess {
 }
 
 export interface GetSearchSuccess extends RequestSuccess {
-  advertisings: PoultryData[]
+  advertisings: PoultryData[];
+  pages: number;
 }
 
 export default class MarketplaceBffClient {
@@ -157,7 +158,7 @@ export default class MarketplaceBffClient {
       }
     });
 
-    return data.advertisings;
+    return data;
   }
 
   @RequestErrorHandler()
