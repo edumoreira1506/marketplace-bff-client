@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { IAdvertisingQuestionAnswer, IAdvertisingQuestion, IDeal, IPoultry, IAdvertising, IBreeder, IPoultryRegister } from '@cig-platform/types';
+import { IAdvertisingQuestionAnswer, IAdvertisingQuestion, IDeal } from '@cig-platform/types';
 import { RequestErrorHandler } from '@cig-platform/decorators';
 
 interface RequestSuccess {
@@ -8,30 +8,6 @@ interface RequestSuccess {
 
 export interface PostDealSuccess extends RequestSuccess {
   deal: IDeal;
-}
-
-interface PoultryData {
-  poultry: IPoultry & { mainImage: string; breederId: string };
-  advertising: IAdvertising;
-  breeder: IBreeder;
-  measurementAndWeight: IPoultryRegister & {
-    metadata: {
-      weight?: string;
-      measurement?: string;
-    }
-  };
-}
-
-export interface GetHomeSuccess extends RequestSuccess {
-  femaleChickens: PoultryData[];
-  maleChickens: PoultryData[];
-  matrixes: PoultryData[];
-  reproductives: PoultryData[];
-}
-
-export interface GetSearchSuccess extends RequestSuccess {
-  advertisings: PoultryData[];
-  pages: number;
 }
 
 export default class MarketplaceBffClient {
@@ -107,58 +83,6 @@ export default class MarketplaceBffClient {
     );
 
     return data.deal;
-  }
-
-  @RequestErrorHandler()
-  async getHome() {
-    const { data } = await this._axiosBackofficeBffInstance.get<GetHomeSuccess>('/v1/home');
-
-    return data;
-  }
-
-  @RequestErrorHandler()
-  async getSearch({
-    gender = [],
-    type = [],
-    tail = [],
-    dewlap = [],
-    crest = [],
-    keyword,
-    genderCategory = [],
-    prices,
-    sort,
-    page = 0,
-    favorites = []
-  }: {
-    gender?: string[];
-    type?: string[];
-    tail?: string[];
-    dewlap?: string[];
-    crest?: string[];
-    keyword?: string;
-    genderCategory?: string[];
-    prices?: { min?: number; max?: number };
-    sort?: string;
-    favorites: string[];
-    page?: number;
-  }) {
-    const { data } = await this._axiosBackofficeBffInstance.get<GetSearchSuccess>('/v1/search', {
-      params: {
-        gender: gender.filter(Boolean).length ? gender.filter(Boolean).join(',') : undefined,
-        type: type.filter(Boolean).length ? type.filter(Boolean).join(',') : undefined,
-        tail: tail.filter(Boolean).length ? tail.filter(Boolean).join(',') : undefined,
-        dewlap: dewlap.filter(Boolean).length ? dewlap.filter(Boolean).join(',') : undefined,
-        crest: crest.filter(Boolean).length ? crest.filter(Boolean).join(',') : undefined,
-        keyword,
-        genderCategory: genderCategory.filter(Boolean).length ? genderCategory.filter(Boolean).join(',') : undefined,
-        prices: prices ? JSON.stringify(prices) : undefined,
-        sort,
-        favoriteIds: favorites.join(','),
-        page
-      }
-    });
-
-    return data;
   }
 
   @RequestErrorHandler()
